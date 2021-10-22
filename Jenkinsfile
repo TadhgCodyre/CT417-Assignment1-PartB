@@ -8,18 +8,23 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'assemble'
+                sh './gradlew build'
+            }
+        }
+        stage('Assemble') {
+            steps {
+                sh './gradlew assemble'
             }
         }
         stage('Run') {
             steps {
-                sh './gradlew run'
+                sh './gradlew war'
             }
         }
     }
     post {
         always {
-            archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
+            archiveArtifacts artifacts: 'build/libs/*.war', fingerprint: true
         }
     }
 }
